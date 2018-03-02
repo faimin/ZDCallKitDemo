@@ -31,6 +31,7 @@ typedef NS_ENUM(NSInteger, MDConnectedState) {
 @property (nonatomic, strong) NSDate *connectDate;
 @property (nonatomic, strong) NSDate *endDate;
 @property (nonatomic, assign) BOOL isOnHold;
+@property (nonatomic, assign) BOOL isMuted;
 
 @property (nonatomic, copy  ) dispatch_block_t stateDidChange;
 @property (nonatomic, copy  ) dispatch_block_t hasStartedConnectingDidChange;

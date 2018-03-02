@@ -24,7 +24,7 @@
 
 @interface NSUserActivity (MDCall)
 
-@property(nonatomic, copy  ) NSString *startCallHandle;
-@property(nonatomic, assign) BOOL video;
+@property (nonatomic, copy  ) NSString *startCallHandle;
+@property (nonatomic, assign) BOOL video;
 
 @end

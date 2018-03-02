@@ -71,20 +71,23 @@
     CXStartCallAction *startCallAction = [[CXStartCallAction alloc] initWithCallUUID:[NSUUID UUID] handle:handle];
     startCallAction.video = isVideo;
     
-    CXTransaction *transaction = [[CXTransaction alloc] initWithAction:startCallAction];
-    [self requestTransaction:transaction];
+    [self requestCallAction:startCallAction];
 }
 
 - (void)endCall:(MDCall *)call {
     CXEndCallAction *endCallAction = [[CXEndCallAction alloc] initWithCallUUID:call.uuid];
-    CXTransaction *transaction = [[CXTransaction alloc] initWithAction:endCallAction];
-    [self requestTransaction:transaction];
+    [self requestCallAction:endCallAction];
 }
 
 - (void)heldCall:(MDCall *)call onHold:(BOOL)onHold {
     CXSetHeldCallAction *heldCallAction = [[CXSetHeldCallAction alloc] initWithCallUUID:call.uuid onHold:onHold];
-    CXTransaction *transaction = [[CXTransaction alloc] initWithAction:heldCallAction];
-    [self requestTransaction:transaction];
+    [self requestCallAction:heldCallAction];
+}
+
+- (void)mutedCall:(MDCall *)call muted:(BOOL)muted {
+    CXSetMutedCallAction *mutedCallAction = [[CXSetMutedCallAction alloc] initWithCallUUID:call.uuid muted:muted];
+    call.isMuted = muted;
+    [self requestCallAction:mutedCallAction];
 }
 
 #pragma mark - Storage
@@ -129,6 +132,11 @@
 }
 
 #pragma mark - Private Method
+
+- (void)requestCallAction:(CXAction *)callAction {
+    CXTransaction *transaction = [[CXTransaction alloc] initWithAction:callAction];
+    [self requestTransaction:transaction];
+}
 
 - (void)requestTransaction:(CXTransaction *)transaction {
     NSCAssert(transaction, @"what's wrong ????");
