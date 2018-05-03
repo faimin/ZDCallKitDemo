@@ -34,6 +34,10 @@
     CXCallUpdate *callUpdate = [[CXCallUpdate alloc] init];
     callUpdate.remoteHandle = [[CXHandle alloc] initWithType:CXHandleTypePhoneNumber value:handleString];
     callUpdate.hasVideo = hasVideo;
+    callUpdate.supportsDTMF = NO;
+    callUpdate.supportsGrouping = NO;
+    callUpdate.supportsUngrouping = NO;
+    callUpdate.supportsHolding = YES;
     
     [self.provider reportNewIncomingCallWithUUID:uuid update:callUpdate completion:^(NSError * _Nullable error) {
         if (!error) {
@@ -151,6 +155,7 @@
         CXProviderConfiguration *configuration = [[CXProviderConfiguration alloc] initWithLocalizedName:@"要呼叫的人名"];
         configuration.supportsVideo = YES;
         configuration.maximumCallsPerCallGroup = 1;
+        // 此设置会让通讯录中的视频按钮变为此APP的样式按钮
         configuration.supportedHandleTypes = [NSSet setWithObject:@(CXHandleTypePhoneNumber)];
         configuration.iconTemplateImageData = UIImagePNGRepresentation([UIImage imageNamed:@"logo.png"]);
         configuration.ringtoneSound = @"Ringtone.aif";//如果没有音频文件 就用系统的
